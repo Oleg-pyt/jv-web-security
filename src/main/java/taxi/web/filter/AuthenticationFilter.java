@@ -19,13 +19,10 @@ public class AuthenticationFilter implements Filter {
         HttpSession session = req.getSession();
 
         Long userId = (Long) session.getAttribute("user_id");
-        if (userId != null
-                && req.getServletPath().equals("/logout")) {
-            chain.doFilter(req, resp);
-            return;
-        }
         if (userId == null && (req.getServletPath().equals("/login")
-                || req.getServletPath().equals("/register"))) {
+                || req.getServletPath().equals("/register"))
+                || userId != null
+                && req.getServletPath().equals("/logout")) {
             chain.doFilter(req, resp);
             return;
         }
